@@ -3,7 +3,7 @@ package com.taoEshop.productservice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taoEshop.productservice.dto.ProductRequest;
-import com.taoEshop.productservice.repositry.ProductRepository;
+import com.taoEshop.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@Testcontainers
 @AutoConfigureMockMvc
 class ProductServiceApplicationTests {
 
@@ -47,14 +49,16 @@ class ProductServiceApplicationTests {
 	void contextLoads() throws Exception {
 		ProductRequest productRequest = getProductRequest();
 		String prString = objectMapper.writeValueAsString(productRequest);
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/product").contentType(MediaType.APPLICATION_JSON).content(prString))
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(prString))
 				.andExpect(status().isCreated());
-		Assertions.assertEquals(0, productRepository.findAll().size());
+		Assertions.assertEquals(1, productRepository.findAll().size());
 	}
 
 	private ProductRequest getProductRequest(){
 		return ProductRequest.builder()
-				.Name("iPad")
+				.name("iPad")
 				.description("New iPad")
 				.price(BigDecimal.valueOf(888))
 				.build();

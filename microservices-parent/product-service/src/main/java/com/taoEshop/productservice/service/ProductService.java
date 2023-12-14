@@ -3,7 +3,7 @@ package com.taoEshop.productservice.service;
 import com.taoEshop.productservice.dto.ProductRequest;
 import com.taoEshop.productservice.dto.ProductResponse;
 import com.taoEshop.productservice.model.Product;
-import com.taoEshop.productservice.repositry.ProductRepository;
+import com.taoEshop.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
